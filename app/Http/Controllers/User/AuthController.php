@@ -81,11 +81,42 @@ class AuthController extends Controller
             ], 401);
         }
 
+        $user = auth('users')->authenticate($jwt_token);
         return response()->json([
             'success'=>true,
-            'token'=>$jwt_token
+            'token'=>$jwt_token,
+            'id'=>$user->id
         ], 200);
     }
 
+    function user ($id){
+        try {
+            $user = User::findOrFail($id);
+            return response()->json([
+            'success'=>false,
+            'data'=>$user 
+        ], 404);
+        } catch (\Throwable $th) {
+                    return response()->json([
+            'success'=>false,
+            'data'=>'Not found'
+        ], 404);
+        }
+    }
+
+    function userPosts ($id){
+        try {
+            $user = User::findOrFail($id);
+            return response()->json([
+                'success'=>false,
+                'data'=>$user->entries 
+            ], 404);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success'=>false,
+                'data'=>'Not found'
+            ], 404);
+        }
+    }
 
 }

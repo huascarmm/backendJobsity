@@ -19,7 +19,8 @@ Route::group([
 ], function(){
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
-
+    Route::get('info/{id}', 'AuthController@user');
+    Route::get('userPosts/{id}', 'AuthController@userPosts');
 });
 
 Route::resource('entries', 'EntriesController');
